@@ -2,11 +2,15 @@ package com.cxb.service.impl;
 
 
 import com.cxb.service.IHelloWorldService;
+import org.springframework.stereotype.Component;
 
 /**
  * 接口实现
  * @author 蔡小波
  */
+
+//将实现类加入Spring的IOC容器进行管理（业务组件）
+@Component("helloWorldService")
 public class HelloWorldService implements IHelloWorldService {
 
     @Override

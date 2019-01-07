@@ -7,7 +7,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 /**
  * 测试
- * 基于XML配置AOP实现
+ * 基于注解配置AOP实现
  * @author 蔡小波
  */
 public class HelloWorldTest {
@@ -19,7 +19,7 @@ public class HelloWorldTest {
         ApplicationContext context=new FileSystemXmlApplicationContext("web/WEB-INF/applicationContext.xml");
 
         //通过ApplicationContext.getBean(beanName)动态加载数据（类）【获取Spring容器中已初始化的bean】。
-        HelloWorldService helloWorld=(HelloWorldService) context.getBean("HelloWorldService");
+        HelloWorldService helloWorld=(HelloWorldService) context.getBean("helloWorldService");
 
         //执行动态加载到的类的方法
         helloWorld.sayHello();

@@ -1,29 +1,41 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/aop
-       http://www.springframework.org/schema/aop/spring-aop.xsd">
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
     <!-- 配置目标类,需要被AOP拦截的类【即要实现哪个类（主要业务）】 -->
-    <bean id="HelloWorldService" class="com.cxb.service.impl.HelloWorldService"/>
+    <!--<bean id="HelloWorldService" class="com.cxb.service.impl.HelloWorldService"/>-->
 
-    <!-- 配置切面类 -->
-    <bean id="HelloWorldAspect" class="com.cxb.aop.HelloWorldAspect"/>
+    <!--&lt;!&ndash; 配置切面类 &ndash;&gt;-->
+    <!--<bean id="HelloWorldAspect" class="com.cxb.aop.HelloWorldAspect"/>-->
 
-    <!--配置AOP-->
+    <!--&lt;!&ndash;配置AOP&ndash;&gt;-->
+     <!--强制使用cglib代理，如果不设置，将默认使用jdk的代理，但是jdk的代理是基于接口的 -->
+    <!--<aop:config proxy-target-class="true">-->
+        <!--&lt;!&ndash; 定义切入点 (配置在com.cxb下所有的类在调用之前都会被拦截)&ndash;&gt;-->
+        <!--<aop:pointcut expression="execution(* com.cxb..*.*(..))" id="HelloWorldPointcut"/>-->
+        <!--&lt;!&ndash;切面&ndash;&gt;-->
+        <!--<aop:aspect ref="HelloWorldAspect">-->
+            <!--&lt;!&ndash;配置前置通知&ndash;&gt;-->
+            <!--&lt;!&ndash;配置哪个切入点的哪个方法&ndash;&gt;-->
+            <!--<aop:before pointcut-ref="HelloWorldPointcut" method="beforeAdvice"/>   &lt;!&ndash;一个切入点的引用&ndash;&gt;-->
+        <!--</aop:aspect>-->
+    <!--</aop:config>-->
+
+    <!-- 激活组件扫描功能,在包com.hyq.aop及其子包下面自动扫描通过注解配置的组件 -->
+    <context:component-scan base-package="com.cxb"/>
+    <!-- 开启aop注解方式，此步骤s不能少，这样java类中的aop注解才会生效 -->
+    <aop:aspectj-autoproxy/>
     <!-- 强制使用cglib代理，如果不设置，将默认使用jdk的代理，但是jdk的代理是基于接口的 -->
-    <aop:config proxy-target-class="true">
-        <!-- 定义切入点 (配置在com.cxb下所有的类在调用之前都会被拦截)-->
-        <aop:pointcut expression="execution(* com.cxb..*.*(..))" id="HelloWorldPointcut"/>
-        <!--切面-->
-        <aop:aspect ref="HelloWorldAspect">
-            <!--配置前置通知-->
-            <!--配置哪个切入点的哪个方法-->
-            <aop:before pointcut-ref="HelloWorldPointcut" method="beforeAdvice"/>   <!--一个切入点的引用-->
-        </aop:aspect>
-    </aop:config>
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+
 
 
 </beans>
